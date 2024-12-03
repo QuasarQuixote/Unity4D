@@ -42,7 +42,12 @@ public class PlayahRigidMovement : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;  // Unlock the cursor
             Cursor.visible = true;  // Make the cursor visible again
         }
-        if (gameObject.transform.position.y < -20) gameObject.transform.position = new Vector3(-3, 3, 0);
+
+        //Player falls
+        if (gameObject.transform.position.y < -20) {
+            gameObject.transform.position = new Vector3(-3, 3, 0);
+            gameObject.transform.eulerAngles=new Vector3(0, 90, 0);
+        }
 
     }
     
