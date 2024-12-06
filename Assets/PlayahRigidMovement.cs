@@ -11,6 +11,8 @@ public class PlayahRigidMovement : MonoBehaviour
     public float sensitivity = 1f;
     //private bool grounded = false;
     Vector3 appliedVelocity;
+    Vector3 currentSpawn;
+    Vector3 defaultSpawn;
     //public BoxCollider feet;
     // Start is called before the first frame update
     void Start()
@@ -19,6 +21,10 @@ public class PlayahRigidMovement : MonoBehaviour
         appliedVelocity = new Vector3();
         Cursor.lockState = CursorLockMode.Locked;  // Lock the cursor to the center
         Cursor.visible = false;  // Hide the cursor
+
+        //checkpoint shenanigans
+        defaultSpawn = new Vector3(-3, 3, 0);
+        currentSpawn = defaultSpawn;
     }
 
     // Update is called once per frame
@@ -42,8 +48,17 @@ public class PlayahRigidMovement : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;  // Unlock the cursor
             Cursor.visible = true;  // Make the cursor visible again
         }
-        if (gameObject.transform.position.y < -20) gameObject.transform.position = new Vector3(-3, 3, 0);
 
+        //more checkpoint stuff
+        if (Input.GetKeyDown(KeyCode.C)) currentSpawn = new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z);
+        if (Input.GetKeyDown(KeyCode.X)) currentSpawn = defaultSpawn;
+        //Player falls
+        if (gameObject.transform.position.y < -20) {
+            gameObject.transform.position = currentSpawn;
+            thisBody.velocity += Vector3.up * thisBody.velocity.y * -1;
+        }
+
+        
     }
     
     void CalcAppliedVelocity()
